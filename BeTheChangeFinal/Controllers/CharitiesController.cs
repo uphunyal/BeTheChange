@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeTheChangeFinal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeTheChangeFinal.Controllers
 {
+    
     public class CharitiesController : Controller
     {
         private readonly BeTheChangeContext _context;
@@ -55,6 +57,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Charities/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CtypeName"] = new SelectList(_context.CharityType, "CtypeName", "CtypeName");
@@ -64,6 +67,7 @@ namespace BeTheChangeFinal.Controllers
         // POST: Charities/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CharityId,CharityDetails,CharityName,CharityOrganization,CharityLocation,CharityLink,CtypeName")] Charity charity)
@@ -79,6 +83,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Charities/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -98,6 +103,7 @@ namespace BeTheChangeFinal.Controllers
         // POST: Charities/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CharityId,CharityDetails,CharityName,CharityOrganization,CharityLocation,CharityLink,CtypeName")] Charity charity)
@@ -132,6 +138,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Charities/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,6 +158,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // POST: Charities/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
