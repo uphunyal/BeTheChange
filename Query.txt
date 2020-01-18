@@ -1,0 +1,58 @@
+CREATE TABLE Custom_Causes
+(
+  custom_id  INT identity NOT NULL,
+  custom_name varchar(300) NOT NULL,
+  custom_details varchar(2000) NOT NULL,
+  custom_location varchar(500),
+  cause_type varchar(50) ,
+  donate_link varchar(500),
+  PRIMARY KEY (custom_id)
+);
+
+CREATE TABLE Posts
+(
+  post_id INT identity NOT NULL,
+  post_details  varchar (2000) NOT NULL,
+  post_date date NOT NULL,
+  post_title varchar(100) NOT NULL,
+  user_email varchar(100) NOT NULL,
+  PRIMARY KEY (post_id)
+);
+
+CREATE TABLE Charity_Type
+(
+  type_name varchar(100) NOT NULL,
+  PRIMARY KEY (ctype_name)
+);
+
+CREATE TABLE Disaster_type
+(
+  dtype_name varchar(100) NOT NULL,
+  PRIMARY KEY (dtype_name)
+);
+
+CREATE TABLE Charity
+(
+  charity_id INT identity NOT NULL,
+  charity_details varchar(2000) NOT NULL,
+  charity_name varchar(100)  NOT NULL,
+  charity_organization varchar(200) ,
+  charity_location varchar(500),
+  charity_link varchar(500),
+  type_name varchar(100) NOT NULL,
+  PRIMARY KEY (charity_id),
+  FOREIGN KEY (ctype_name) REFERENCES Charity_Type(ctype_name)
+);
+
+CREATE TABLE Disaster
+(
+  disaster_id INT identity NOT NULL,
+  disaster_name varchar(100)  NOT NULL,
+  disaster_details varchar(2000) NOT NULL,
+  disaster_location varchar(500) NOT NULL,
+  disaster_link varchar(500),
+  urgency char(1) NOT NULL,
+  dtype_name varchar(100) NOT NULL,
+  PRIMARY KEY (disaster_id),
+  FOREIGN KEY (dtype_name) REFERENCES Disaster_type(dtype_name)
+);
