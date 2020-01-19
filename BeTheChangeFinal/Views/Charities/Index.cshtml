@@ -21,22 +21,24 @@
     <thead>
         <tr>
             <th>
-                Charity Detaisl
+
+                Charity Name
             </th>
             <th>
-               Charity Name
+                Charity Originization
             </th>
             <th>
-                Organization
+                Charity Location
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CharityLocation)
+                Charity Details
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CharityLink)
+                Charity Link
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CtypeNameNavigation)
+                Charity Type
             </th>
             <th></th>
         </tr>
@@ -46,9 +48,6 @@
 {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CharityDetails)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.CharityName)
             </td>
             <td>
@@ -56,6 +55,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CharityLocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CharityDetails)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CharityLink)

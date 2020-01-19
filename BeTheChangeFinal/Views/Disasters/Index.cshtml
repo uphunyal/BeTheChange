@@ -1,14 +1,64 @@
 ﻿@model IEnumerable<BeTheChangeFinal.Models.Disaster>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Disasters";
 }
 
-<h1>Disasters</h1>
+
+<h1>Searching by Disasters</h1>
+
+
+
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a style="color:lightcoral" asp-action="Create">Create New</a>
 </p>
+
+
+<form asp-controller="Charities" asp-action="Index" method="get">
+    <p>
+        Search by disaster type: <input type="text" name="SearchString">
+        <input type="submit" value="Filter" autofocus autocomplete="" style="background-color:peachpuff; border-style:solid; border-bottom-color:darkslategrey" />
+    </p>
+</form>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Disaster Name</th>
+                <th>Details</th>
+                <th>Location</th>
+                <th>Link</th>
+                <th>Urgency</th>
+                <th>Disaster Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.DisasterName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DisasterDetails)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DisasterLocation)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DisasterLink)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Urgency)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DtypeNameNavigation.DtypeName)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.DisasterId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.DisasterId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.DisasterId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+<table class="table" id="t01">
+
 <form asp-controller="Disasters" asp-action="Index" method="get">
     <p>
         Title: <input type="text" name="SearchString">
@@ -16,56 +66,29 @@
     </p>
 </form>
 <table class="table">
+
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DisasterName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisasterDetails)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisasterLocation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisasterLink)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Urgency)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DtypeNameNavigation)
-            </th>
-            <th></th>
+            <th>Disaster Name</th>
+            <th>Urgency</th>
+            <th>Location</th>
+            <th>Details</th>
+            <th>Link</th>
+            <th>Disaster Type</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisasterName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisasterDetails)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisasterLocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisasterLink)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Urgency)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DtypeNameNavigation.DtypeName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DisasterId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DisasterId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DisasterId">Delete</a>
-            </td>
+            <td>@Html.DisplayFor(modelItem => item.DisasterName)</td>
+            <td>@Html.DisplayFor(modelItem => item.Urgency)</td>
+            <td>@Html.DisplayFor(modelItem => item.DisasterLocation)</td>
+            <td>@Html.DisplayFor(modelItem => item.DisasterDetails)</td>
+            <td>@Html.DisplayFor(modelItem => item.DisasterLink)</td>
+            <td>@Html.DisplayFor(modelItem => item.DtypeNameNavigation.DtypeName)</td>
         </tr>
-}
+        }
     </tbody>
 </table>
+}
