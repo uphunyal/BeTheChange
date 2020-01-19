@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body style="background-color:lightgray">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container" style="background-color:navajowhite">
@@ -36,9 +36,18 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            <div class="menu-container" id="menu-container" style="height:inherit">
+                <div class="main-nav-link" id="main-nav-link" style="padding:15px">
+                    <a style="color:#2b2d2f" href="#">Search Charities  *</a>
+                    <a style="color:#2b2d2f" href="#">Search Disasters  *</a>
+                    <a style="color:#2b2d2f" href="#">Search Custom Causes  *</a>
+                    <a style="color:#2b2d2f" href="#">Tap for Change  *</a>
+                    <a style="color:#2b2d2f" href="#">Create a Cause  *</a>
+                    <a style="color:#2b2d2f" href="#">Posts  </a>
+                </div>
+            </div>
         </main>
     </div>
-   
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2020 - BeTheChangeFinal - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
