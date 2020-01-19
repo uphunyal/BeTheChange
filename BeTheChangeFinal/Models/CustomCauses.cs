@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BeTheChangeFinal.Models
 {
@@ -11,5 +12,9 @@ namespace BeTheChangeFinal.Models
         public string CustomLocation { get; set; }
         public string CauseType { get; set; }
         public string DonateLink { get; set; }
+        
+        [Required]
+
+        public string Username { get; set; }
     }
 }

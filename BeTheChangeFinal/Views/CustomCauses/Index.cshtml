@@ -1,20 +1,14 @@
 ﻿@model IEnumerable<BeTheChangeFinal.Models.CustomCauses>
 
 @{
-    ViewData["Title"] = "Cause";
+    ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create Your Cause</a>
+    <a asp-action="Create">Create New</a>
 </p>
-<form asp-controller="Customcauses" asp-action="Index" method="get">
-    <p>
-        Title: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" autofocus autocomplete="" />
-    </p>
-</form>
 <table class="table">
     <thead>
         <tr>
@@ -32,6 +26,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DonateLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
             </th>
             <th></th>
         </tr>
@@ -53,6 +50,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DonateLink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CustomId">Edit</a> |
