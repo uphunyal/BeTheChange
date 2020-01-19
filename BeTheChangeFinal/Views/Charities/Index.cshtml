@@ -1,45 +1,66 @@
 ﻿@model IEnumerable<BeTheChangeFinal.Models.Charity>
 
 @{
-    ViewData["Title"] = "CharityOrganization";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Searching by Charities</h1>
+<h1>Index</h1>
 
 <p>
-    <a style="color:lightcoral" asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New</a>
 </p>
 
 <form asp-controller="Charities" asp-action="Index" method="get">
     <p>
-        Search by charity organization: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" autofocus autocomplete="" style="background-color:peachpuff; border-style:solid; border-bottom-color:darkslategrey"/>
+        Title: <input type="text" name="SearchString">
+        <input type="submit" value="Filter" autofocus autocomplete="" />
     </p>
 </form>
-
-@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-{
 <table class="table">
     <thead>
         <tr>
-            <th>Details</th>
-            <th>Charity Name</th>
-            <th>Organization</th>
-            <th>Location</th>
-            <th>Link</th>
-            <th>Charity Type</th>
+            <th>
+                Charity Name
+            </th>
+            <th>
+                Charity Originization
+            </th>
+            <th>
+                Charity Location
+            </th>
+            <th>
+                Charity Details
+            </th>
+            <th>
+                Charity Link
+            </th>
+            <th>
+                Charity Type
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
+@foreach (var item in Model) {
         <tr>
-            <td>@Html.DisplayFor(modelItem => item.CharityDetails)</td>
-            <td>@Html.DisplayFor(modelItem => item.CharityName)</td>
-            <td>@Html.DisplayFor(modelItem => item.CharityOrganization)</td>
-            <td>@Html.DisplayFor(modelItem => item.CharityLocation)</td>
-            <td>@Html.DisplayFor(modelItem => item.CharityLink)</td>
-            <td>@Html.DisplayFor(modelItem => item.CtypeNameNavigation.CtypeName)</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CharityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CharityOrganization)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CharityLocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CharityDetails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CharityLink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CtypeNameNavigation.CtypeName)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CharityId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.CharityId">Details</a> |
@@ -49,32 +70,3 @@
 }
     </tbody>
 </table>
-}
-else
-{
-<table class="table" id="t01">
-    <thead>
-        <tr>
-            <th>Charity Name</th>
-            <th>Organization Name</th>
-            <th>Location</th>
-            <th>Details</th>
-            <th>Type</th>
-            <th>Link</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.CharityName)</td>
-                <td>@Html.DisplayFor(modelItem => item.CharityOrganization)</td>
-                <td>@Html.DisplayFor(modelItem => item.CharityLocation)</td>
-                <td>@Html.DisplayFor(modelItem => item.CharityDetails)</td>
-                <td>@Html.DisplayFor(modelItem => item.CtypeNameNavigation.CtypeName)</td>
-                <td>@Html.DisplayFor(modelItem => item.CharityLink)</td>
-            </tr>
-        }
-    </tbody>
-</table>
-}
