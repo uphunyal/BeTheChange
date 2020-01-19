@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeTheChangeFinal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeTheChangeFinal.Controllers
 {
+    [Authorize]
     public class CustomCausesController : Controller
     {
         private readonly BeTheChangeContext _context;
@@ -19,9 +21,16 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: CustomCauses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchstring)
         {
-            return View(await _context.CustomCauses.ToListAsync());
+           var causes = from m in _context.CustomCauses
+                           select m;
+          
+            if (!String.IsNullOrEmpty(searchstring))
+            {
+                causes = causes.Where(c => c.CauseType.Contains(searchstring));
+                           }
+            return View(await causes.ToListAsync());
         }
 
         // GET: CustomCauses/Details/5

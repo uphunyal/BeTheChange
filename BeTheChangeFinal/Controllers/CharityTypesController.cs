@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeTheChangeFinal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeTheChangeFinal.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CharityTypesController : Controller
     {
         private readonly BeTheChangeContext _context;
