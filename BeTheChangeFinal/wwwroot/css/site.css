@@ -130,3 +130,10 @@ body {
     padding: 0 35px;
 }
 
+table#t01 {
+    width: 100%;
+    background-color: peachpuff;
+    border-style:double;
+    border-color:darkslategrey;
+    color: black;
+}
