@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<BeTheChangeFinal.Models.Charity>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Charity List";
 }
 
-<h1>Index</h1>
+<h1>Charity</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,14 +12,16 @@
 
 <form asp-controller="Charities" asp-action="Index" method="get">
     <p>
-        Title: <input type="text" name="SearchString">
+        Search by Organization Name: <input type="text" name="SearchString">
         <input type="submit" value="Filter" autofocus autocomplete="" />
     </p>
 </form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
+
                 Charity Name
             </th>
             <th>
@@ -27,6 +29,7 @@
             </th>
             <th>
                 Charity Location
+
             </th>
             <th>
                 Charity Details
@@ -41,7 +44,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CharityName)
