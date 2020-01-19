@@ -175,8 +175,8 @@ namespace BeTheChangeFinal.Controllers
             int charitycount = _context.Charity.Count();
             Console.WriteLine("The number of Charity Count" + charitycount);
             Random r = new Random();
-            int selectedno = r.Next(1, charitycount);
-            var charity = _context.Charity.Include(c => c.CtypeNameNavigation).Where(c => c.CharityId == charitycount);
+            int selectedno = r.Next(4, charitycount+3);
+            var charity = _context.Charity.Include(c => c.CtypeNameNavigation).Where(c => c.CharityId == selectedno);
 
 
 

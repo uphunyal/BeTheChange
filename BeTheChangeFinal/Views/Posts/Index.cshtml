@@ -4,50 +4,150 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
+<div class="text-center">
+    <h1>Want to share what you have been up to?</h1>
+    <p>Share a post! Let us know what charities you have been involved with, the trees you have planted and the animals you have saved, we want to know!</p>
+</div>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create Post</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PostDetails)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserEmail)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostDetails)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserEmail)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PostId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
-            </td>
-        </tr>
+@if (!User.IsInRole("Admin") && User.Identity.IsAuthenticated)
+{
+    <h4>Your Post History</h4>
 }
-    </tbody>
-</table>
+@if (User.Identity.IsAuthenticated)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Post Details
+                </th>
+                <th>
+                    Date Posted
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Username
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.UserEmail == User.Identity.Name && !User.IsInRole("Admin"))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostDetails)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserEmail)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+                        </td>
+                    </tr>
+}
+                @if (User.IsInRole("Admin"))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostDetails)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserEmail)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+                        </td>
+                    </tr>
+                }
+
+
+            }
+
+
+        </tbody>
+    </table>
+}
+
+
+<br />
+@if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+{
+    <h4>Social Posts</h4>
+    @foreach (var item in Model)
+    {
+        if (item.UserEmail != User.Identity.Name)
+        {
+            <div class="align-content-center  card">
+
+
+                <hr />
+                <dl>
+
+                    <dd>
+                        <h4> <strong>@item.PostTitle</strong></h4>
+                    </dd>
+
+                    <dd>
+                        <h6>Posted By @item.UserEmail on @item.PostDate</h6>
+                    </dd>
+                    <dd>
+                        <p>@item.PostDetails</p>
+                    </dd>
+
+                </dl>
+                <br />
+                <br />
+            </div>
+        }
+    }
+}
+
+@if (!User.Identity.IsAuthenticated)
+{<h4>Social Posts</h4>
+    @foreach (var item in Model)
+    {
+
+        <div class="align-content-center  card">
+            
+            <hr />
+            <dl>
+
+                <dd>
+                    <h4> <strong>@item.PostTitle</strong></h4>
+                </dd>
+
+                <dd>
+                    <h6>Posted By @item.UserEmail on @item.PostDate</h6>
+                </dd>
+                <dd>
+                    <p>@item.PostDetails</p>
+                </dd>
+
+            </dl>
+            <br />
+            <br />
+        </div>
+
+    }
+}

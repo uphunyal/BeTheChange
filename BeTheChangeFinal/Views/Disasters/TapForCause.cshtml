@@ -1,57 +1,58 @@
 ﻿@model IEnumerable<BeTheChangeFinal.Models.Disaster>
-<h3>Random Cause to Donate</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DisasterName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisasterDetails)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisasterLocation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisasterLink)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Urgency)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DtypeNameNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisasterName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisasterDetails)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisasterLocation)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisasterLink)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Urgency)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DtypeNameNavigation.DtypeName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.DisasterId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.DisasterId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.DisasterId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<h3>Our Randomly Selected Cause</h3>
+
+
+
+
+
+@foreach (var item in Model)
+{
+
+    <div class="align-content-center  border-dark card">
+
+        <hr />
+        <dl>
+            <dt>
+                Disaster Name
+            </dt>
+            <dd>
+                @item.DisasterName
+            </dd>
+            <dt>
+                Disaster Detail
+            </dt>
+            <dd>
+                @item.DisasterDetails
+            </dd>
+
+            <dt>
+                Location
+            </dt>
+            <dd>
+                @item.DisasterLocation
+            </dd>
+            <dt>
+                Urgency
+            </dt>
+            <dd>
+                @item.Urgency
+            </dd>
+
+            <dt>
+                Disaster Category
+            </dt>
+            <dd>
+                @item.DtypeNameNavigation.DtypeName
+            </dd>
+           
+            <dt>
+                <button type="button" style="background-color:peachpuff; border:solid; border-color:black; margin-bottom:15px" onclick="window.open('@item.DisasterLink');">Donate/Info</button>
+            </dt>
+
+        </dl>
+        <br />
+        <br />
+    </div>
+
+}
+

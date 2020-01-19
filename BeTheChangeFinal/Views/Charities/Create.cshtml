@@ -13,32 +13,32 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CharityDetails" class="control-label"></label>
+                <label asp-for="CharityDetails" class="control-label"> Charity Details</label>
                 <input asp-for="CharityDetails" class="form-control" />
                 <span asp-validation-for="CharityDetails" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CharityName" class="control-label"></label>
+                <label asp-for="CharityName" class="control-label">Charity Name</label>
                 <input asp-for="CharityName" class="form-control" />
                 <span asp-validation-for="CharityName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CharityOrganization" class="control-label"></label>
+                <label asp-for="CharityOrganization" class="control-label">Organization</label>
                 <input asp-for="CharityOrganization" class="form-control" />
                 <span asp-validation-for="CharityOrganization" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CharityLocation" class="control-label"></label>
+                <label asp-for="CharityLocation" class="control-label">Location</label>
                 <input asp-for="CharityLocation" class="form-control" />
                 <span asp-validation-for="CharityLocation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CharityLink" class="control-label"></label>
+                <label asp-for="CharityLink" class="control-label">Donate/Info Link</label>
                 <input asp-for="CharityLink" class="form-control" />
                 <span asp-validation-for="CharityLink" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CtypeName" class="control-label"></label>
+                <label asp-for="CtypeName" class="control-label">Charity Type</label>
                 <select asp-for="CtypeName" class ="form-control" asp-items="ViewBag.CtypeName"></select>
             </div>
             <div class="form-group">
