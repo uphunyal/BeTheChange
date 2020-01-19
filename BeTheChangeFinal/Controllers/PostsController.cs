@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeTheChangeFinal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeTheChangeFinal.Controllers
 {
@@ -43,6 +44,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Posts/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +55,7 @@ namespace BeTheChangeFinal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("PostId,PostDetails,PostDate,PostTitle,UserEmail")] Posts posts)
         {
             if (ModelState.IsValid)
@@ -65,6 +68,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Posts/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,6 +89,7 @@ namespace BeTheChangeFinal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("PostId,PostDetails,PostDate,PostTitle,UserEmail")] Posts posts)
         {
             if (id != posts.PostId)
@@ -116,6 +121,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Posts/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,6 +142,7 @@ namespace BeTheChangeFinal.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var posts = await _context.Posts.FindAsync(id);

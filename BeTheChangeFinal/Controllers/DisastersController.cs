@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeTheChangeFinal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeTheChangeFinal.Controllers
 {
+   
     public class DisastersController : Controller
     {
         private readonly BeTheChangeContext _context;
@@ -45,6 +47,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Disasters/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["DtypeName"] = new SelectList(_context.DisasterType, "DtypeName", "DtypeName");
@@ -56,6 +59,7 @@ namespace BeTheChangeFinal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("DisasterId,DisasterName,DisasterDetails,DisasterLocation,DisasterLink,Urgency,DtypeName")] Disaster disaster)
         {
             if (ModelState.IsValid)
@@ -69,6 +73,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Disasters/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,6 +95,7 @@ namespace BeTheChangeFinal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("DisasterId,DisasterName,DisasterDetails,DisasterLocation,DisasterLink,Urgency,DtypeName")] Disaster disaster)
         {
             if (id != disaster.DisasterId)
@@ -122,6 +128,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Disasters/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -143,6 +150,7 @@ namespace BeTheChangeFinal.Controllers
         // POST: Disasters/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var disaster = await _context.Disaster.FindAsync(id);

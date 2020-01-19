@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
 using BeTheChangeFinal.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using BeTheChangeFinal.Services;
 
 namespace BeTheChangeFinal
 {
@@ -31,46 +33,52 @@ namespace BeTheChangeFinal
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DataConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
-        //Create User and Role if it doesnot exist
-        private async Task CreateUserRoles(IServiceProvider serviceProvider)
-        {
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+          //Create User and Role if it doesnot exist
+          private async Task CreateUserRoles(IServiceProvider serviceProvider)
+          {
+              var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+              var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
 
-            //Adding Admin Role
-            var roleCheck = await RoleManager.RoleExistsAsync("Admin");
-            if (!roleCheck)
-            {
-                //create the roles and seed them to the database
-                await RoleManager.CreateAsync(new IdentityRole("Admin"));
-            }
-            var poweruser = new IdentityUser
-            {
-                UserName = "admin@admin.com",
-                Email = "admin@admin.com",
-                EmailConfirmed = true
+              //Adding Admin Role
+              var roleCheck = await RoleManager.RoleExistsAsync("Admin");
+              if (!roleCheck)
+              {
+                  //create the roles and seed them to the database
+                  await RoleManager.CreateAsync(new IdentityRole("Admin"));
+              }
+              var poweruser = new IdentityUser
+              {
+                  UserName = "admin",
+                  Email = "admin@admin.com",
+                  EmailConfirmed = true,
+                         
 
-            };
-           
-            var user = await UserManager.FindByEmailAsync("admin@admin.com");
-            if (user == null)
-            {
-                var createpoweruser = await UserManager.CreateAsync(poweruser, "Superuser1!");
-                if (createpoweruser.Succeeded)
-                {
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
-                }
+              };
 
-            } }
-           
+              var user = await UserManager.FindByEmailAsync("admin@admin.com");
+              if (user == null)
+              {
+                  var createpoweruser = await UserManager.CreateAsync(poweruser, "Superuser1!");
+                  if (createpoweruser.Succeeded)
+                  {
+                      await UserManager.AddToRoleAsync(poweruser, "Admin");
+                  }
 
-                // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-                public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+              }
+          }
+  
+       
+
+            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -90,7 +98,7 @@ namespace BeTheChangeFinal
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            CreateUserRoles(serviceProvider).Wait();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
