@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BeTheChangeFinal.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<UserDetails>
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

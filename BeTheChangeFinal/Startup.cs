@@ -32,7 +32,7 @@ namespace BeTheChangeFinal
             services.AddDbContext<BeTheChangeContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DataConnection")));
-            services.AddDefaultIdentity<UserDetails>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddTransient<IEmailSender, EmailSender>();
@@ -44,7 +44,7 @@ namespace BeTheChangeFinal
           private async Task CreateUserRoles(IServiceProvider serviceProvider)
           {
               var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-              var UserManager = serviceProvider.GetRequiredService<UserManager<UserDetails>>();
+              var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
 
               //Adding Admin Role
@@ -54,12 +54,12 @@ namespace BeTheChangeFinal
                   //create the roles and seed them to the database
                   await RoleManager.CreateAsync(new IdentityRole("Admin"));
               }
-              var poweruser = new UserDetails
+              var poweruser = new IdentityUser
               {
-                  UserName = "admin@admin.com",
+                  UserName = "admin",
                   Email = "admin@admin.com",
                   EmailConfirmed = true,
-                  Name="Admin"
+                         
 
               };
 

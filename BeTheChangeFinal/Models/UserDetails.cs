@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿/*using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace BeTheChangeFinal.Models
 {
-    public class UserDetails: IdentityUser
+    public class IdentityUser: IdentityUser
     {
         [Required]
-        public string Name { get; set; }
-       
+        public string UserName { get; set; }
+
     }
 }
+*/
