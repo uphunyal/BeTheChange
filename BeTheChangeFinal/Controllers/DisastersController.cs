@@ -21,8 +21,20 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Disasters
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchstring)
+
+            
         {
+            var disasters = from m in _context.Disaster
+                            select m;
+            
+            if (!String.IsNullOrEmpty(searchstring))
+            {
+                disasters = disasters.Include(c => c.DtypeNameNavigation).Where(s => s.DtypeName.Contains(searchstring)).OrderByDescending(c=>c.Urgency);
+                return View(await disasters.ToListAsync());
+            }
+
+            
             var beTheChangeContext = _context.Disaster.Include(d => d.DtypeNameNavigation).OrderByDescending(c=>c.Urgency);
           
             return View(await beTheChangeContext.ToListAsync());

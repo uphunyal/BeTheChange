@@ -29,7 +29,7 @@ namespace BeTheChangeFinal.Controllers
             var beTheChangeContext = _context.Charity.Include(c => c.CtypeNameNavigation);
             if (!String.IsNullOrEmpty(searchstring))
             {
-                charities = charities.Include(c=>c.CtypeNameNavigation).Where(s => s.CharityOrganization==searchstring);
+                charities = charities.Include(c=>c.CtypeNameNavigation).Where(s => s.CharityOrganization.Contains(searchstring));
                 return View(await charities.ToListAsync());
             }
             
