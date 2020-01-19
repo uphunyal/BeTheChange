@@ -23,7 +23,8 @@ namespace BeTheChangeFinal.Controllers
         // GET: Disasters
         public async Task<IActionResult> Index()
         {
-            var beTheChangeContext = _context.Disaster.Include(d => d.DtypeNameNavigation);
+            var beTheChangeContext = _context.Disaster.Include(d => d.DtypeNameNavigation).OrderByDescending(c=>c.Urgency);
+          
             return View(await beTheChangeContext.ToListAsync());
         }
 
@@ -159,6 +160,22 @@ namespace BeTheChangeFinal.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Tap for a cause
+        //Randomly selected Charity
+        public IActionResult TapForCause()
+        {
+            int disastercount = _context.Disaster.Count();
+            Console.WriteLine("The number of Charity Count" + disastercount);
+            Random r = new Random();
+            int selectedno = r.Next(1, disastercount);
+            var disaster = _context.Disaster.Include(c => c.DtypeNameNavigation).Where(c => c.DisasterId == disastercount);
+
+
+
+            Console.WriteLine(disaster.Count());
+            return View(disaster);
+
+        }
         private bool DisasterExists(int id)
         {
             return _context.Disaster.Any(e => e.DisasterId == id);

@@ -12,18 +12,18 @@ namespace BeTheChangeFinal.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        /*private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-        }
-       /* private readonly BeTheChangeContext _context;
+        }*/
+        private readonly BeTheChangeContext _context;
 
         public HomeController(BeTheChangeContext context)
         {
             _context = context;
-        }*/
+        }
         public IActionResult Index()
         {
             return View();
@@ -34,7 +34,7 @@ namespace BeTheChangeFinal.Controllers
             return View();
         }
 
-        /*public async Task<IActionResult> TapForChange()
+        public async Task<IActionResult> TapForChange()
         {
             Random r = new Random();
             int selectedno = r.Next(0, 1);
@@ -45,14 +45,15 @@ namespace BeTheChangeFinal.Controllers
                 var context = _context.Charity.Where(c => c.CharityId == r.Next(0, charitycount));
                 return View(await context.ToListAsync());
             }
-           else {
+            else
+            {
 
                 int disaster_count = _context.Disaster.Count();
 
                 var context = _context.Charity.Where(c => c.CharityId == r.Next(0, disaster_count));
                 return View(await context.ToListAsync());
             }
-        }*/
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

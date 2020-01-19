@@ -169,6 +169,21 @@ namespace BeTheChangeFinal.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Randomly selected Charity
+        public  IActionResult TapForCause()
+        {
+            int charitycount = _context.Charity.Count();
+            Console.WriteLine("The number of Charity Count" + charitycount);
+            Random r = new Random();
+            int selectedno = r.Next(1, charitycount);
+            var charity = _context.Charity.Include(c => c.CtypeNameNavigation).Where(c => c.CharityId == charitycount);
+
+
+
+            Console.WriteLine(charity.Count());
+            return View( charity);
+            
+        }
         private bool CharityExists(int id)
         {
             return _context.Charity.Any(e => e.CharityId == id);
