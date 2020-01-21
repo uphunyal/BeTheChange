@@ -13,7 +13,7 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CharityDetails" class="control-label">Charity Details</label>
+                <label asp-for="CharityDetails" class="control-label"> Charity Details</label>
                 <input asp-for="CharityDetails" class="form-control" />
                 <span asp-validation-for="CharityDetails" class="text-danger"></span>
             </div>
@@ -23,17 +23,17 @@
                 <span asp-validation-for="CharityName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CharityOrganization" class="control-label">Charity Organization</label>
+                <label asp-for="CharityOrganization" class="control-label">Organization</label>
                 <input asp-for="CharityOrganization" class="form-control" />
                 <span asp-validation-for="CharityOrganization" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CharityLocation" class="control-label">Charity Location</label>
+                <label asp-for="CharityLocation" class="control-label">Location</label>
                 <input asp-for="CharityLocation" class="form-control" />
                 <span asp-validation-for="CharityLocation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CharityLink" class="control-label">Charity Link</label>
+                <label asp-for="CharityLink" class="control-label">Donate/Info Link</label>
                 <input asp-for="CharityLink" class="form-control" />
                 <span asp-validation-for="CharityLink" class="text-danger"></span>
             </div>
@@ -42,7 +42,7 @@
                 <select asp-for="CtypeName" class ="form-control" asp-items="ViewBag.CtypeName"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" style="background-color:peachpuff; border-style:solid; border-color:darkslategrey; color:black" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

@@ -41,6 +41,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: Disasters/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -179,10 +180,10 @@ namespace BeTheChangeFinal.Controllers
             int disastercount = _context.Disaster.Count();
             Console.WriteLine("The number of Charity Count" + disastercount);
             Random r = new Random();
-            int selectedno = r.Next(1, disastercount);
-            var disaster = _context.Disaster.Include(c => c.DtypeNameNavigation).Where(c => c.DisasterId == disastercount);
+            int selectedno = r.Next(3, disastercount+2);
+            var disaster = _context.Disaster.Include(c => c.DtypeNameNavigation).Where(c => c.DisasterId == selectedno);
 
-
+             
 
             Console.WriteLine(disaster.Count());
             return View(disaster);

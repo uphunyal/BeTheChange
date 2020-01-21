@@ -1,142 +1,153 @@
 ﻿@model IEnumerable<BeTheChangeFinal.Models.Posts>
 
 @{
-    ViewData["Title"] = "Posts";
+    ViewData["Title"] = "Index";
 }
 
-<!-- Posts Opening-->
 <div class="text-center">
     <h1>Want to share what you have been up to?</h1>
     <p>Share a post! Let us know what charities you have been involved with, the trees you have planted and the animals you have saved, we want to know!</p>
 </div>
-
 <p>
-    <a style="color:lightcoral" asp-action="Create">Create New</a>
+    <a asp-action="Create">Create Post</a>
 </p>
-
-<!--Allows admin to see and modify posts-->
-@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+@if (!User.IsInRole("Admin") && User.Identity.IsAuthenticated)
+{
+    <h4>Your Post History</h4>
+}
+@if (User.Identity.IsAuthenticated)
 {
     <table class="table">
         <thead>
             <tr>
-                <th>Post Title</th>
-                <th>Date</th>
-                <th>Details</th>
-                <th>Email</th>
+                <th>
+                    Post Details
+                </th>
+                <th>
+                    Date Posted
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Username
+                </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.PostTitle)</td>
-                <td>@Html.DisplayFor(modelItem => item.PostDate)</td>
-                <td>@Html.DisplayFor(modelItem => item.PostDetails)</td>
-                <td>@Html.DisplayFor(modelItem => item.UserEmail)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.PostId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
-                </td>
-            </tr>
+                if (item.UserEmail == User.Identity.Name && !User.IsInRole("Admin"))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostDetails)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserEmail)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+                        </td>
+                    </tr>
+}
+                @if (User.IsInRole("Admin"))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostDetails)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserEmail)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+                        </td>
+                    </tr>
+                }
+
+
             }
+
+
         </tbody>
     </table>
 }
-<!--View for non-admins of posts published-->
 
-else
+
+<br />
+@if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
 {
-<table class="table" id="t01">
-    <thead>
-        <tr>
-            <th>Post Title</th>
-            <th>Date</th>
-            <th>Details</th>
-            <th>Email</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+    <h4>Social Posts</h4>
+    @foreach (var item in Model)
+    {
+        if (item.UserEmail != User.Identity.Name)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.PostTitle)</td>
-                <td>@Html.DisplayFor(modelItem => item.PostDate)</td>
-                <td>@Html.DisplayFor(modelItem => item.PostDetails)</td>
-                <td>@Html.DisplayFor(modelItem => item.UserEmail)</td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <div class="align-content-center  card">
 
-<div class="col">
-    <div class="row">
-        <div class="header">
-            <div class="leftcolumn">
-                <div class="card">
-                    <table style="background-color: #ffdab9; height: 250px; width: 350px; float: left;" border="2">
-                        <tbody>
-                            <tr style="height: 25.4px;">
-                                <th style="font-family: segoe UI; font-size: 16px; width: 387.4px; height: 25.4px; text-align: center;"><strong> Title </strong></th>
-                            </tr>
-                            <tr style="height: 20px;">
-                                <td style="font-family: segoe UI; font-size: 11px; height: 20px; text-align: right; vertical-align: middle; padding-right: 10px;"><strong><em>Username 1/18/2020</em></strong></td>
-                            </tr>
-                            <tr style="height: px;">
-                                <td style="height: 127px; width: 387.4px; background-color: #fffaf0; vertical-align: top; padding-left: 15px; padding-right: 15px;">
-                                    <p style="font-family: segoe UI; font-size: 13px;">Post body</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+
+                <hr />
+                <dl>
+
+                    <dd>
+                        <h4> <strong>@item.PostTitle</strong></h4>
+                    </dd>
+
+                    <dd>
+                        <h6>Posted By @item.UserEmail on @item.PostDate</h6>
+                    </dd>
+                    <dd>
+                        <p>@item.PostDetails</p>
+                    </dd>
+
+                </dl>
+                <br />
+                <br />
             </div>
+        }
+    }
+}
+
+@if (!User.Identity.IsAuthenticated)
+{<h4>Social Posts</h4>
+    @foreach (var item in Model)
+    {
+
+        <div class="align-content-center  card">
+            
+            <hr />
+            <dl>
+
+                <dd>
+                    <h4> <strong>@item.PostTitle</strong></h4>
+                </dd>
+
+                <dd>
+                    <h6>Posted By @item.UserEmail on @item.PostDate</h6>
+                </dd>
+                <dd>
+                    <p>@item.PostDetails</p>
+                </dd>
+
+            </dl>
+            <br />
+            <br />
         </div>
-        <div class="header">
-            <div class="rightcolumn">
-                <div class="card">
-                    <table style="background-color: #ffdab9; height: 250px; width: 350px; float: left;" border="2">
-                        <tbody>
-                            <tr style="height: 25.4px;">
-                                <th style="font-family: segoe UI; font-size: 16px; width: 387.4px; height: 25.4px; text-align: center;"><strong> Title </strong></th>
-                            </tr>
-                            <tr style="height: 20px;">
-                                <td style="font-family: segoe UI; font-size: 11px; height: 20px; text-align: right; vertical-align: middle; padding-right: 10px;"><strong><em>Username 1/18/2020</em></strong></td>
-                            </tr>
-                            <tr style="height: px;">
-                                <td style="height: 127px; width: 387.4px; background-color: #fffaf0; vertical-align: top; padding-left: 15px; padding-right: 15px;">
-                                    <p style="font-family: segoe UI; font-size: 13px;">Post body</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="header">
-            <div class="rightcolumn">
-                <div class="card">
-                    <table style="background-color: #ffdab9; height: 250px; width: 350px; float: left;" border="2">
-                        <tbody>
-                            <tr style="height: 25.4px;">
-                                <th style="font-family: segoe UI; font-size: 16px; width: 387.4px; height: 25.4px; text-align: center;"><strong> Title </strong></th>
-                            </tr>
-                            <tr style="height: 20px;">
-                                <td style="font-family: segoe UI; font-size: 11px; height: 20px; text-align: right; vertical-align: middle; padding-right: 10px;"><strong><em>Username 1/18/2020</em></strong></td>
-                            </tr>
-                            <tr style="height: px;">
-                                <td style="height: 127px; width: 387.4px; background-color: #fffaf0; vertical-align: top; padding-left: 15px; padding-right: 15px;">
-                                    <p style="font-family: segoe UI; font-size: 13px;">Post body</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+    }
 }

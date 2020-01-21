@@ -14,29 +14,34 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CustomId" />
             <div class="form-group">
-                <label asp-for="CustomName" class="control-label"></label>
+                <label asp-for="CustomName" class="control-label">Custom Cause Name</label>
                 <input asp-for="CustomName" class="form-control" />
                 <span asp-validation-for="CustomName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CustomDetails" class="control-label"></label>
+                <label asp-for="CustomDetails" class="control-label">Details</label>
                 <input asp-for="CustomDetails" class="form-control" />
                 <span asp-validation-for="CustomDetails" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CustomLocation" class="control-label"></label>
+                <label asp-for="CustomLocation" class="control-label">Location</label>
                 <input asp-for="CustomLocation" class="form-control" />
                 <span asp-validation-for="CustomLocation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CauseType" class="control-label"></label>
+                <label asp-for="CauseType" class="control-label">Cause Type</label>
                 <input asp-for="CauseType" class="form-control" />
                 <span asp-validation-for="CauseType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DonateLink" class="control-label"></label>
+                <label asp-for="DonateLink" class="control-label">Donate/Info Link</label>
                 <input asp-for="DonateLink" class="form-control" />
                 <span asp-validation-for="DonateLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" disabled value="@User.Identity.Name" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -49,6 +54,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

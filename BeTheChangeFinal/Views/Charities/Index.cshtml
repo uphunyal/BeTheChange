@@ -4,11 +4,13 @@
     ViewData["Title"] = "Charity List";
 }
 
-<h1>Charity</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h3>Charity List</h3>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Add New Charity Info</a>
+    </p>
+}
 
 <form asp-controller="Charities" asp-action="Index" method="get">
     <p>
@@ -16,61 +18,119 @@
         <input type="submit" value="Filter" autofocus autocomplete="" />
     </p>
 </form>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-
-                Charity Name
-            </th>
-            <th>
-                Charity Originization
-            </th>
-            <th>
-                Charity Location
-
-            </th>
-            <th>
-                Charity Details
-            </th>
-            <th>
-                Charity Link
-            </th>
-            <th>
-                Charity Type
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model)
+@if (User.IsInRole("Admin"))
 {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CharityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CharityOrganization)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CharityLocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CharityDetails)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CharityLink)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CtypeNameNavigation.CtypeName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CharityId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CharityId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CharityId">Delete</a>
-            </td>
-        </tr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Charity Detaisl
+                </th>
+                <th>
+                    Charity Name
+                </th>
+                <th>
+                    Organization
+                </th>
+                <th>
+                    Charity Location
+                </th>
+                <th>
+                    Donate/Info Link
+                </th>
+                <th>
+                    Charity Type
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="card">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CharityDetails)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CharityName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CharityOrganization)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CharityLocation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CharityLink)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CtypeNameNavigation.CtypeName)
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.CharityId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.CharityId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.CharityId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+
+
+    @foreach (var item in Model)
+    {
+
+        <div class="align-content-center  border-dark card">
+
+            <hr />
+            <dl>
+                <dt>
+                    Charity Name
+                </dt>
+                <dd>
+                    @item.CharityName
+                </dd>
+                <dt>
+                    Charity Details
+                </dt>
+                <dd>
+                    @item.CharityDetails
+                </dd>
+
+                <dt>
+                    Organization
+                </dt>
+                <dd>
+                    @item.CharityOrganization
+                </dd>
+                <dt>
+                    Location
+                </dt>
+                <dd>
+                    @item.CharityLocation
+                </dd>
+
+                <dt>
+                    Charity Type
+                </dt>
+                <dd>
+                    @item.CtypeNameNavigation.CtypeName
+                </dd>
+                <dt>
+                    <button type="button" style="background-color:peachpuff; border:solid; border-color:black; margin-bottom:15px" onclick="window.open('@item.CharityLink');">Donate/Info</button>
+                </dt>
+
+            </dl>
+
+        </div>
+        <br />
+        
+
+    }
+
+
+}

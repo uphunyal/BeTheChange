@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BeTheChangeFinal.Controllers
 {
-    [Authorize]
     public class CustomCausesController : Controller
     {
         private readonly BeTheChangeContext _context;
@@ -21,18 +20,12 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: CustomCauses
-        public async Task<IActionResult> Index(string searchstring)
+        public async Task<IActionResult> Index()
         {
-           var causes = from m in _context.CustomCauses
-                           select m;
-          
-            if (!String.IsNullOrEmpty(searchstring))
-            {
-                causes = causes.Where(c => c.CauseType.Contains(searchstring));
-                           }
-            return View(await causes.ToListAsync());
+            return View(await _context.CustomCauses.ToListAsync());
         }
 
+        
         // GET: CustomCauses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -52,6 +45,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: CustomCauses/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -62,7 +56,8 @@ namespace BeTheChangeFinal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomId,CustomName,CustomDetails,CustomLocation,CauseType,DonateLink")] CustomCauses customCauses)
+        [Authorize]
+        public async Task<IActionResult> Create([Bind("CustomId,CustomName,CustomDetails,CustomLocation,CauseType,DonateLink,Username")] CustomCauses customCauses)
         {
             if (ModelState.IsValid)
             {
@@ -74,6 +69,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: CustomCauses/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -94,7 +90,8 @@ namespace BeTheChangeFinal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomId,CustomName,CustomDetails,CustomLocation,CauseType,DonateLink")] CustomCauses customCauses)
+        [Authorize]
+        public async Task<IActionResult> Edit(int id, [Bind("CustomId,CustomName,CustomDetails,CustomLocation,CauseType,DonateLink,Username")] CustomCauses customCauses)
         {
             if (id != customCauses.CustomId)
             {
@@ -125,6 +122,7 @@ namespace BeTheChangeFinal.Controllers
         }
 
         // GET: CustomCauses/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -145,6 +143,7 @@ namespace BeTheChangeFinal.Controllers
         // POST: CustomCauses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customCauses = await _context.CustomCauses.FindAsync(id);

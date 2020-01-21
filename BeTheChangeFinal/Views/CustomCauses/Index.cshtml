@@ -1,65 +1,190 @@
 ﻿@model IEnumerable<BeTheChangeFinal.Models.CustomCauses>
 
 @{
-    ViewData["Title"] = "Cause";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<p>Are you passionate about something and we missed it? You can start your own cause!</p>
+
 
 <p>
-    <a asp-action="Create">Create Your Cause</a>
+    <a asp-action="Create">Create New</a>
 </p>
-<form asp-controller="Customcauses" asp-action="Index" method="get">
-    <p>
-        Title: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" autofocus autocomplete="" />
-    </p>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomDetails)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomLocation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CauseType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DonateLink)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomDetails)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomLocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CauseType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DonateLink)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CustomId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CustomId">Delete</a>
-            </td>
-        </tr>
+@if (!User.IsInRole("Admin") && User.Identity.IsAuthenticated)
+{
+    <h4>Your Started Campaign</h4>
 }
-    </tbody>
-</table>
+@if (User.Identity.IsAuthenticated)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Cause Name/ Your Name
+                </th>
+                <th>
+                    Details
+                </th>
+                <th>
+                    Location
+                </th>
+                <th>
+                    Type of Cause
+                </th>
+                <th>
+                    Donate/ Info Link
+                </th>
+                <th>
+                    Posted By
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.Username == User.Identity.Name && !User.IsInRole("Admin"))
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomDetails)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomLocation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CauseType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DonateLink)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Username)
+                        </td>
+                        <td>
+
+                            <a asp-action="Edit" asp-route-id="@item.CustomId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.CustomId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.CustomId">Delete</a>
+                        </td>
+                    </tr>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomDetails)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomLocation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CauseType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DonateLink)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Username)
+                        </td>
+                        <td>
+
+                            <a asp-action="Edit" asp-route-id="@item.CustomId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.CustomId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.CustomId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+<br />
+@if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+{
+    @foreach (var item in Model)
+    {
+        if (item.Username != User.Identity.Name)
+        {
+            <div class="align-content-center  card">
+                <h4>Social Posts</h4>
+
+                <hr />
+                <dl>
+
+                    <dd>
+                        <h4> <strong>@item.CustomName</strong></h4><h6>@item.CauseType</h6>
+                    </dd>
+
+                    <dd>
+                        <h5>Posted By @item.Username</h5>
+                    </dd>
+                    <dd>
+                        <h6>@item.CustomLocation</h6>
+                    </dd>
+                    <dd>
+                        <h6>@item.CustomLocation</h6>
+                    </dd>
+                    <dd>
+                        <h6>@item.CustomDetails</h6>
+                    </dd>
+                    <dt>
+                        <button type="button" style="background-color:peachpuff; border:solid; border-color:black; margin-bottom:15px" onclick="window.open('@item.DonateLink');">Donate/Info</button>
+                    </dt>
+
+
+
+                </dl>
+                <br />
+                <br />
+            </div>
+        }
+    }
+}
+
+@if (!User.Identity.IsAuthenticated)
+{
+    @foreach (var item in Model)
+    {
+
+<div class="align-content-center  card">
+    <h4>What The Community Believes In</h4>
+
+    <hr />
+    <dl>
+
+        <dd>
+            <h4> <strong>@item.CustomName</strong></h4><h6>@item.CauseType</h6>
+        </dd>
+
+        <dd>
+            <h6>Posted By @item.Username</h6>
+        </dd>
+        <dd>
+            <h6>@item.CustomLocation</h6>
+        </dd>
+        
+        <dd>
+            <h6>@item.CustomDetails</h6>
+        </dd>
+        <dt>
+            <button type="button" style="background-color:peachpuff; border:solid; border-color:black; margin-bottom:15px" onclick="window.open('@item.DonateLink');">Donate/Info</button>
+        </dt>
+
+
+
+    </dl>
+    <br />
+    <br />
+</div>
+
+    }
+}
+
